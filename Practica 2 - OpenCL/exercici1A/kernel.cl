@@ -1,39 +1,58 @@
 #include "common.h"
 
-// Kernel code
-
-unsigned char getValue(__global unsigned char *img, int cols, int i, int j)
+//MIDAP = 16
+float getValue(__global unsigned char *img, int cols, int i, int j)
 {
+  // i -> fila
+  // j -> columna
   float val = img[i * cols + j]; 
   return val;
 }
 
 void setValue(__global float *out, int cols, int i, int j, float value)
 {
+  // i -> fila
+  // j -> columna
   out[i * cols + j] = value; 
 }
 
+// img: imatge amb una vora de 15 pixels per la dreta i per sota
+// pat: patro de 16 x 16 pixels
+// rows: files de img (incloent la vora de 15 pixels)
+// cols: columnes de img (incloent la vora de 15 pixels)
+// out: image resultant sense cap vora
+
 __kernel void pattern_matching(
-    __global unsigned char *img,
+    __global unsigned char *img,      
     __global unsigned char *pat,
-    int rows,
-    int cols,
-    __global float *out)
+    int rows, 
+    int cols, 
+    __global float *out)        
 {
+    int i, j;
+    float val;  
 
-  int i = get_global_id(1);
-  int j = get_global_id(0);
+    i = get_global_id(1);
+    j = get_global_id(0);
 
-  float sum = 0.0;
-  float value;
-  for(int k = 0; k < 16; k++){
-      for(int l = 0; l < 16; l++){
+    int out_rows = rows - PADDING;
+    int out_cols = cols - PADDING;
 
-	  value= (float) getValue(img,cols,j+l,i+k) - (float) getValue(pat, 16, l,k);
-	  sum += value * value;
-      }
-  }
-  setValue(out, cols,j,i,sum / (float) (16.0*16.0));
+    
+    float sum = 0.0;
+    for(int k = 0; k < MIDAP; k++){
+	for(int l = 0; l < MIDAP; l++){
+
+	    float value =  getValue(img,cols,i+l,j+k) -  getValue(pat,MIDAP,l,k);
+	    sum += value * value;
+	}
+    }
+    val =sum / (float) (MIDAP*MIDAP);
+    setValue(out,out_cols, i, j, val);
+    /*
+    val = getValue(img, cols, i, j);
+    setValue(out, out_cols, i, j, val);
+    */
 }
 
 
