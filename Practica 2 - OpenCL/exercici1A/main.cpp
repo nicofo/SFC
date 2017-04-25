@@ -6,9 +6,10 @@
 using namespace std;
 using namespace cimg_library;
 
-CImg<float> pattern_matching_gpu(CImg<unsigned char> &img, CImg<unsigned char> &pat);
+CImg<float> pattern_matching(CImg<unsigned char> &img, CImg<unsigned char> &pat);
 
-CImg<float> pattern_matching_cpu(CImg<unsigned char> &img, CImg<unsigned char> &pat)
+/*
+CImg<float> pattern_matching(CImg<unsigned char> &img, CImg<unsigned char> &pat)
 {
     struct timeval start, end;
     long mtime, seconds, useconds;
@@ -39,7 +40,7 @@ CImg<float> pattern_matching_cpu(CImg<unsigned char> &img, CImg<unsigned char> &
     cout << "Elapsed time of pattmatch function at CPU = " << mtime << "ms" << endl;
 
     return output;
-}
+}*/
 
 CImg<unsigned char> setBorder(CImg<unsigned char> &gray)
 {
@@ -97,7 +98,7 @@ int main(int argc, char** argv )
     }
 
     CImg<unsigned char> gray_border = setBorder(gray);
-    CImg<float> out = pattern_matching_gpu(gray_border, pattern);//se retoca de cpu a gpu
+    CImg<float> out = pattern_matching(gray_border, pattern);//se retoca de cpu a gpu
     CImg<unsigned char> norm_out= out.get_normalize(0, 255);
 
     norm_out.save(argv[3]);

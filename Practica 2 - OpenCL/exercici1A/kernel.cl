@@ -43,17 +43,20 @@ __kernel void pattern_matching(
     for(int k = 0; k < MIDAP; k++){
 	for(int l = 0; l < MIDAP; l++){
 
-	    float value =  getValue(img,cols,i+l,j+k) -  getValue(pat,MIDAP,l,k);
+	    //float value =  getValue(img,cols,i+l,j+k) -  getValue(pat,MIDAP,l,k); //anterior inicial
+	    float value =  getValue(img,cols,i+k,j+l) -  getValue(pat,MIDAP,k,l); //Prueba cambiando l i k
 	    sum += value * value;
 	}
     }
     val =sum / (float) (MIDAP*MIDAP);
     setValue(out,out_cols, i, j, val);
+    
+    
     /*
     val = getValue(img, cols, i, j);
     setValue(out, out_cols, i, j, val);
     */
 }
 
-
+/* NOTA.- Para este apartado se ha puesto el localWorkSize a 1,1 */
 

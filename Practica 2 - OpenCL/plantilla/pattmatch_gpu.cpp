@@ -11,10 +11,11 @@
 using namespace std;
 using namespace cimg_library;
 
-CImg<float> pattern_matching_gpu(CImg<unsigned char> &img, CImg<unsigned char> &pat) 
+CImg<float> pattern_matching(CImg<unsigned char> &img, CImg<unsigned char> &pat) 
 {
   // Output. We assume input image has a border of PADDING pixels
   CImg<float> out(img.width()-PADDING,img.height()-PADDING,1,1,0);
+
 
   // Kernel source
   FILE *fp;
@@ -23,7 +24,7 @@ CImg<float> pattern_matching_gpu(CImg<unsigned char> &img, CImg<unsigned char> &
 
   // For the timer 
   struct timeval start, end;
-  long mtime, seconds, useconds;
+  float mtime, seconds, useconds;
 
 
   fp = fopen("kernel.cl", "r");
@@ -272,8 +273,12 @@ CImg<float> pattern_matching_gpu(CImg<unsigned char> &img, CImg<unsigned char> &
   // Configure the work-item structure
   //----------------------------------------------------- 
 
-  size_t globalWorkSize[1] = {1};
-  size_t localWorkSize[1] = {1};
+  // El globalWorkSize en aquest exemple es correspon a la mida de la imatge
+  // sense la vora a la dreta i a sota. Es important que la mida de la imatge
+  // sense la vora tingui una mida que sigui multiple del localWorkSize
+
+  size_t globalWorkSize[] = {(size_t) width - PADDING, (size_t) height - PADDING};
+  size_t localWorkSize[] = {32, 32};
 
   //-----------------------------------------------------
   // Enqueue the kernel for execution
@@ -286,7 +291,7 @@ CImg<float> pattern_matching_gpu(CImg<unsigned char> &img, CImg<unsigned char> &
   status = clEnqueueNDRangeKernel(
       cmdQueue, 
       kernel, 
-      1, 
+      2, 
       NULL, 
       globalWorkSize, 
       localWorkSize, 
@@ -294,7 +299,7 @@ CImg<float> pattern_matching_gpu(CImg<unsigned char> &img, CImg<unsigned char> &
       NULL, 
       &event);
 
-  clFinish(cmdQueue);
+  clWaitForEvents(1, &event);
 
   clGetEventProfilingInfo(event,  
       CL_PROFILING_COMMAND_START, 
