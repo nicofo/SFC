@@ -1,4 +1,0 @@
-1
-words
-llista_tot_ordenat.cfg
-5
