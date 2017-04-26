@@ -277,9 +277,10 @@ CImg<float> pattern_matching(CImg<unsigned char> &img, CImg<unsigned char> &pat)
   // sense la vora a la dreta i a sota. Es important que la mida de la imatge
   // sense la vora tingui una mida que sigui multiple del localWorkSize
 
-  size_t globalWorkSize[] = {(size_t) width - PADDING, (size_t) height - PADDING};
-  //size_t globalWorkSize[] = {(size_t) width , (size_t) height };
-  size_t localWorkSize[] = {32,32};
+  //size_t globalWorkSize[] = {(size_t) width - PADDING, (size_t) height - PADDING};
+  //Creara tantos WorkItems como filas haya, es decir los pixeles de altura
+  size_t globalWorkSize[] = {(size_t) height - PADDING, (size_t) 1};
+  size_t localWorkSize[] = {32,1};
 
   //-----------------------------------------------------
   // Enqueue the kernel for execution
