@@ -279,8 +279,14 @@ CImg<float> pattern_matching(CImg<unsigned char> &img, CImg<unsigned char> &pat)
 
   //size_t globalWorkSize[] = {(size_t) width - PADDING, (size_t) height - PADDING};
   //Creara tantos WorkItems como filas haya, es decir los pixeles de altura
-  size_t globalWorkSize[] = {(size_t) height - PADDING, (size_t) 1};
-  size_t localWorkSize[] = {32,1};
+  
+  /* Amb dos dimensions */
+  //size_t globalWorkSize[] = {(size_t) height - PADDING, (size_t) 1};
+  //size_t localWorkSize[] = {32,1};
+  
+  /* Amb una dimensio */
+  size_t globalWorkSize[] = {(size_t) height - PADDING};
+  size_t localWorkSize[] = {32};
 
   //-----------------------------------------------------
   // Enqueue the kernel for execution
@@ -293,7 +299,7 @@ CImg<float> pattern_matching(CImg<unsigned char> &img, CImg<unsigned char> &pat)
   status = clEnqueueNDRangeKernel(
       cmdQueue, 
       kernel, 
-      2, 
+      1,  //Punt on s'indiquen el numero de dimensions, abans valor 2
       NULL, 
       globalWorkSize, 
       localWorkSize, 

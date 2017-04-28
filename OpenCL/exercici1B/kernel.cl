@@ -42,6 +42,7 @@ __kernel void pattern_matching(
     float sum = 0.0;
     /* Al crear un workitem por filas se tiene que hacer un for más para recorrer las columnas */
     for(int j = 0; j < out_cols; j++){
+      sum = 0.0;
       for(int k = 0; k < MIDAP; k++){
 	  for(int l = 0; l < MIDAP; l++){
 
@@ -49,9 +50,10 @@ __kernel void pattern_matching(
 	      sum += value * value;
 	  }
       }
+      val = sum / (float) (MIDAP*MIDAP);
+      setValue(out,out_cols, i, j, val);
     }
-    val =sum / (float) (MIDAP*MIDAP);
-    setValue(out,out_cols, i, j, val);
+    
     
 }
 
