@@ -277,7 +277,10 @@ CImg<float> pattern_matching(CImg<unsigned char> &img, CImg<unsigned char> &pat)
   // sense la vora a la dreta i a sota. Es important que la mida de la imatge
   // sense la vora tingui una mida que sigui multiple del localWorkSize
 
-  size_t globalWorkSize[] = {(size_t) width - PADDING, (size_t) height - PADDING};
+  int out_x = width - PADDING;
+  int out_y = height - PADDING;
+
+  size_t globalWorkSize[] = {(size_t) out_x, (size_t) (out_y/32)*8};
   size_t localWorkSize[] = {32, 32};
 
   //-----------------------------------------------------
