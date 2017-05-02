@@ -281,7 +281,7 @@ CImg<float> pattern_matching(CImg<unsigned char> &img, CImg<unsigned char> &pat)
   int out_y = height - PADDING;
 
   size_t globalWorkSize[] = {(size_t) out_x, (size_t) (out_y/32)*8};
-  size_t localWorkSize[] = {32, 32};
+  size_t localWorkSize[] = {32, 8};
 
   //-----------------------------------------------------
   // Enqueue the kernel for execution
