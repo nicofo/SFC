@@ -1,0 +1,17 @@
+Tiempos de Execucions
+
+CPU -> LENA: 50,156 ms
+       STOCOLM: 383,23 ms
+       
+GPU -> 
+      1A -> LENA: 0,2021 ms (GPU) 0,75 (Total)
+	    STOCOLM: 2,83 ms (GPU) 5,32 ms (Total)
+	    
+      1B -> LENA: 16,65 ms (GPU) 17,2 ms (Total)
+	    STOCOLM: 88,67 ms (GPU) 90,34 ms (Total)
+	    
+      2A -> LENA: 0,2136 ms (GPU) 0,91 ms (Total)
+	    STOCOLM: 2,29 ms (GPU) 4,046 ms (Total)
+	    
+      2B -> LENA:  ms (GPU)  ms (Total)
+	    STOCOLM:  ms (GPU)  ms (Total)
