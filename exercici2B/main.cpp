@@ -37,7 +37,8 @@ int main(int argc, char** argv )
 
     CImg<unsigned char> image(argv[1]);   
     CImg<unsigned char> pattern(argv[2]);
-
+    
+    /* Modificacio per poder generar un MIDAP de 32
     if ((PADDING + 1) != MIDAP) {
         cout << "Error: PADDING + 1 != MIDAP" << endl;
         exit(1);
@@ -46,7 +47,7 @@ int main(int argc, char** argv )
     if ((pattern.width() != MIDAP) || (pattern.height() != MIDAP)) {
         cout << "Pattern has not size 16 x 16" << endl;
         exit(1);
-    }
+    }*/
 
     CImg<unsigned char> gray;
 
