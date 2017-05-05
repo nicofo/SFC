@@ -13,5 +13,5 @@ GPU ->
       2A -> LENA: 0,2136 ms (GPU) 0,91 ms (Total)
 	    STOCOLM: 2,29 ms (GPU) 4,046 ms (Total)
 	    
-      2B -> LENA:  ms (GPU)  ms (Total)
-	    STOCOLM:  ms (GPU)  ms (Total)
+      2B -> LENA: 0,19 ms (GPU) 0,72 ms (Total)
+	    STOCOLM: 1,95 ms (GPU) 3,70 ms (Total)
