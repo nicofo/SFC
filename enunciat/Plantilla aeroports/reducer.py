@@ -6,6 +6,7 @@ import sys
 current_year = None
 current_origin = None
 current_count = 0
+current_media = 0.0
 year = None
 origin = None
 total = 0
@@ -16,12 +17,12 @@ for line in sys.stdin:
 
 	# parse the input we got from mapper.py
 	main, depDelay = line.split(':')
-	key, cancelled = main.split('\t')
+	key, vols = main.split('\t')
 	year, origin = key.split(',')
 
 	# convert count (currently a string) to int
 	try:
-		cancelled = int(cancelled)
+		vols = int(vols)
 		depDelay = int(depDelay)
 	except ValueError:
 		# count was not a number, so silently
@@ -31,20 +32,23 @@ for line in sys.stdin:
 	# this IF-switch only works because Hadoop sorts map output
 	# by key (here: word) before it is passed to the reducer
 	if current_year == year and current_origin == origin:
-		current_count += cancelled
+		current_media = ((current_count*current_delay)+(vols*depDelay))/(current_count+depDelay)
+		current_count += vols
 		current_delay += depDelay
+		 
 	else:
 		if current_year and current_origin:
 			# write result to STDOUT
-			print '%s\t%s\t%s\t%s'% (current_year, current_origin, current_count, current_delay)
+			print '%s\t%s\t%s'% (current_year, current_origin, current_media)
 
-		current_count = cancelled
+		current_count = vols
 		current_delay = depDelay
 		current_year = year
 		current_origin = origin
+		current_media = (depDelay)/(vols)
 
 # do not forget to output the last word if needed!
 if current_year == year and current_origin == origin:
-	print '%s\t%s\t%s\t%s'% (current_year, current_origin, current_count, current_delay)
+	print '%s\t%s\t%s'% (current_year, current_origin, current_media)
 
 	
