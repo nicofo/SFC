@@ -1,0 +1,1 @@
+hadoop jar /opt/cloudera/parcels/CDH-5.6.0-1.cdh5.6.0.p0.45/lib/hadoop-mapreduce/hadoop-streaming.jar -mapper mapper.py -reducer reducer.py -file mapper.py -file reducer.py -input /sc/professor/LangDetector/input/cat -output /sc/professor/LangDetector/output
