@@ -29,27 +29,22 @@ for line in sys.stdin:
 		# ignore/discard this line
 		continue
   
-	if year != "Year":
+	if year!="Year":
 		if not vol.has_key(year):
 			vol[year]={}
 			
-		  
 		if not vol[year].has_key(origin):
 			vol[year][origin]={}
 			vol[year][origin]['vols'] = 0
 			vol[year][origin]['cancelled'] = 0
 			vol[year][origin]['delay'] = 0
-		
 		if not cancelled != 0:
 			vol[year][origin]['vols'] += 1
 			vol[year][origin]['cancelled'] += cancelled
 			vol[year][origin]['delay'] += depDelay
         
-
-	#print  '%s,%s\t%s:%s'% (year, origin, cancelled, depDelay)
-	
 for year, dades in vol.items():
 	for key, values in dades.items():
-		print '%s,%s\t%s:%s'% (year, key, values['vols'], values['delay'])
+		print '%s,%s\t%s:%s'% (year, key, values['vols'], values['delay']/(values['vols']*1.0))
 		
 

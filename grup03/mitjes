@@ -1,0 +1,2 @@
+ 
+mitja = (Retras)min * vols(mitjaretras) + (Retras)min * vols(mitjaRetras) +.... / (vols(mitjaRetras)+vols(mitjaRetras)+...)
